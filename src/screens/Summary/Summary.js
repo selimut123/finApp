@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from 'react-native';
 import { styles } from './style';
 
-import Circle from '../../Components/Circle/Circle';
-import List from '../../Components/List/List';
-import { ScrollView } from 'react-native-gesture-handler';
+import List from "../../Components/List/List";
 
-const CashFlow = ({navigation}) => {
-    const [Income, setIncome] = useState([{
-        "description": "Allowance",
-        "price": 2250,
-    }]);
+const Summary = () => {
+    const [Income, setIncome] = useState([
+      {
+        description: "Allowance",
+        price: 2250,
+      },
+    ]);
     const [Expense, setExpense] = useState([
       {
         description: "Rent",
@@ -28,9 +28,15 @@ const CashFlow = ({navigation}) => {
       },
     ]);
     return (
-      <ScrollView>
-        <View style={styles.mainContainer}>
-          <Circle borderColor="#07FFAA" />
+      <View style={styles.mainContainer}>
+        <View style={styles.box}>
+          <Text style={styles.mainTitle}>MARCH, 2022</Text>
+
+          <View style={styles.subbox}>
+            <Text style={styles.title2}>Total Profit</Text>
+            <Text style={styles.priceTitle}>+ 200 $</Text>
+          </View>
+
           <View style={styles.container1}>
             <View>
               <Text style={[styles.title, { borderBottomWidth: 1 }]}>
@@ -50,14 +56,9 @@ const CashFlow = ({navigation}) => {
               <Text style={styles.title}>Liability</Text>
             </View>
           </View>
-          <View style={styles.container2}>
-            <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("Stats")}}>
-              <Text style={styles.buttonText}>STATS</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </ScrollView>
+      </View>
     );
 }
 
-export default CashFlow;
+export default Summary;

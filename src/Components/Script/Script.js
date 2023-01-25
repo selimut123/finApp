@@ -17,7 +17,7 @@ const Script = ({navigation, isTransaction}) => {
       {
         id: 2,
         description: "Wingstop purchased",
-        price: "24.14",
+        price: "24.1",
         date: "Tuesday, March 30, 2021",
       },
       {
@@ -42,8 +42,8 @@ const Script = ({navigation, isTransaction}) => {
               </TouchableOpacity>
             )}
           </View>
-          {arr.map((val) => (
-            <Card value={val} />
+          {arr.map((val, id) => (
+            <Card value={val} key={id}/>
           ))}
         </View>
       </View>

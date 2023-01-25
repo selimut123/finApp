@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { styles } from './style';
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Card = props => {
+const CardBorder = ({title, price, color}) => {
     return (
-      <View key={props.id} style={styles.container}>
+      <View style={styles.mainContainer}>
         <View style={styles.row}>
-          <Text style={styles.text}>{props.value.date}</Text>
-          <Text>{props.value.price} $</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.price, {color: color}]}>{price}$</Text>
         </View>
-        <Text>{props.value.description}</Text>
+        <Text>description</Text>
         <View style={styles.icon}>
           <Icon name="square-edit-outline" size={20} />
         </View>
@@ -18,4 +19,4 @@ const Card = props => {
     );
 }
 
-export default Card;
+export default CardBorder;

@@ -1,9 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 
 export const COLORS = {
   primary: "#689BFF",
   secondary: "#E8F5FF",
 };
+
+
+export const screenWidth = Dimensions.get("window").width;
 
 export const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 

@@ -9,6 +9,10 @@ import ScreenLock from '../screens/ScreenLock/ScreenLock';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import TransactionList from '../screens/TransactionList/TransactionList';
 import CashFlow from '../screens/CashFlow/CashFlow';
+import Stats from '../screens/Stats/Stats';
+import Summary from '../screens/Summary/Summary';
+import Subscription from '../screens/Subscription/Subscription';
+import Income from '../screens/Income/Income';
 import CustomDrawer from '../Components/customDrawer';
 
 const Drawer = createDrawerNavigator();
@@ -76,6 +80,37 @@ function stackNavigator(){
             component={CashFlow}
             options={{
               title: "CashFlow",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Stats"
+            component={Stats}
+            options={{
+              title: "Total Saving",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Summary"
+            component={Summary}
+            options={{
+              drawerItemStyle: { display: "none" },
+            }}
+          />
+          <Drawer.Screen
+            name="Subscription"
+            component={Subscription}
+            options={{
+              title: "Monthly Subscription",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Income"
+            component={Income}
+            options={{
+              title: "Income Page",
               headerTitle: "",
             }}
           />
