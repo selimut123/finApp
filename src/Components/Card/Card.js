@@ -8,12 +8,16 @@ const Card = props => {
       <View key={props.id} style={styles.container}>
         <View style={styles.row}>
           <Text style={styles.text}>{props.value.date}</Text>
-          <Text>{props.value.price} $</Text>
+          <Text style={{ color: props.value.color }}>{props.value.price} $</Text>
         </View>
         <Text>{props.value.description}</Text>
-        <View style={styles.icon}>
-          <Icon name="square-edit-outline" size={20} />
-        </View>
+        {props.value.noEdit ? (
+          <></>
+        ) : (
+          <View style={styles.icon}>
+            <Icon name="square-edit-outline" size={20} />
+          </View>
+        )}
       </View>
     );
 }

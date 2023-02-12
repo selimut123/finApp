@@ -13,6 +13,10 @@ import Stats from '../screens/Stats/Stats';
 import Summary from '../screens/Summary/Summary';
 import Subscription from '../screens/Subscription/Subscription';
 import Income from '../screens/Income/Income';
+import Expense from '../screens/Expense/Expense';
+import Asset from '../screens/Asset/Asset';  
+import Liability from '../screens/Liability/Liability';
+import Bank from '../screens/Bank/Bank';
 import CustomDrawer from '../Components/customDrawer';
 
 const Drawer = createDrawerNavigator();
@@ -111,6 +115,38 @@ function stackNavigator(){
             component={Income}
             options={{
               title: "Income Page",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Expense"
+            component={Expense}
+            options={{
+              title: "Expense Page",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Asset"
+            component={Asset}
+            options={{
+              title: "Asset Page",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Liability"
+            component={Liability}
+            options={{
+              title: "Liability Page",
+              headerTitle: "",
+            }}
+          />
+          <Drawer.Screen
+            name="Bank"
+            component={Bank}
+            options={{
+              title: "Bank Page",
               headerTitle: "",
             }}
           />

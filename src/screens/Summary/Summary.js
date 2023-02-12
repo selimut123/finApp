@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './style';
 
 import List from "../../Components/List/List";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Summary = () => {
+const Summary = ({navigation}) => {
     const [Income, setIncome] = useState([
       {
         description: "Allowance",
@@ -30,6 +31,11 @@ const Summary = () => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.box}>
+          <View style={styles.backButton}>
+            <TouchableOpacity onPress={() => {navigation.navigate("Stats")}}>
+              <Icon name="keyboard-backspace" size={30} />
+            </TouchableOpacity>
+          </View>
           <Text style={styles.mainTitle}>MARCH, 2022</Text>
 
           <View style={styles.subbox}>

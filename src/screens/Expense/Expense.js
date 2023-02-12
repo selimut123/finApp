@@ -1,32 +1,31 @@
-import React, {useState} from 'react';
-import { View, Text } from "react-native";
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from "react-native";
 import { styles } from './style';
-import { getCurrentDate } from "../../../util/function";
+import { getCurrentDate } from '../../../util/function';
 
 import PieChart from '../../Components/PieChart/PieChart';
 import CardBorder from '../../Components/CardBorder/CardBorder';
 import AddButton from '../../Components/AddButton/AddButton';
 import CusModal from '../../Components/Modal/CusModal';
-import { ScrollView } from 'react-native-gesture-handler';
 
-const Income = () => {
+const Expense = () => {
     const [data, setData] = useState([
       {
         id: 1,
-        description: "Allowance",
-        price: 2250,
+        description: "Rent",
+        price: 1290,
         date: "Tuesday, March 30, 2021",
       },
     ]);
 
     const [showModal, setShowModal] = useState(false);
 
-    const addIncome = (Income) => {
-      Income.id = Math.random.toString();
-      Income.date = getCurrentDate();
-      Income.price = parseFloat(Income.price);
-      setData((currIncs) => {
-        return [Income, ...currIncs];
+    const addExpense = (Expense) => {
+      Expense.id = Math.random.toString();
+      Expense.date = getCurrentDate();
+      Expense.price = parseFloat(Expense.price);
+      setData((currExps) => {
+        return [Expense, ...currExps];
       });
       setShowModal(false);
     }
@@ -35,25 +34,20 @@ const Income = () => {
       <View style={styles.mainContainer}>
         <ScrollView>
           <CusModal
-            addFunc={addIncome}
+            addFunc={addExpense}
             setShowModal={() => {
               setShowModal(false);
             }}
             showModal={showModal}
           />
           <View style={styles.chartContainer}>
-            <PieChart text={"Income"} database={data} color={"#85FFA6"} />
+            <PieChart text={"Expense"} database={data} color={"#FF92A4"} />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title}>INCOME</Text>
+            <Text style={styles.title}>EXPENSE</Text>
             <View style={styles.cardContainer}>
               {data.map((val, index) => (
-                <CardBorder
-                  key={index}
-                  title={val.description}
-                  price={"+" + val.price}
-                  color={"#00FF44"}
-                />
+                <CardBorder key={index} title={val.description} price={"-" + val.price} color={"#FF0932"} />
               ))}
             </View>
           </View>
@@ -67,4 +61,4 @@ const Income = () => {
     );
 }
 
-export default Income;
+export default Expense;

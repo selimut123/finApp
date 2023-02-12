@@ -44,4 +44,9 @@ export const styles = StyleSheet.create({
   container1: {
     marginBottom: 50,
   },
+  backButton: {
+    left: 5,
+    top: 5,
+    position: "absolute",
+  },
 });

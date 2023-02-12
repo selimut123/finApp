@@ -3,9 +3,11 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     display: "flex",
+  },
+  circleContainer: {
+    display: "flex",
     alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 40,
+    paddingVertical: 10,
   },
   titleStyle: {
     alignSelf: "center",
@@ -24,7 +26,6 @@ export const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
   },
   innerCircle: {
     width: 150,
@@ -38,25 +39,25 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   container3: {
-    position: 'absolute',
-    bottom: 7,
-    padding: 5,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingBottom: 10,
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
   },
   smallCircle: {
     width: 10,
     height: 10,
     borderRadius: 10,
     marginRight: 5,
+    marginLeft: 10,
   },
-  row:{
+  row: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 10,
   },
 });

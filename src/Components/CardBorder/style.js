@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 5,
     paddingBottom: 20,
+    marginBottom: 15,
   },
   row: {
     display: "flex",

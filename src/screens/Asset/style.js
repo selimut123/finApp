@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../util/constant";
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -9,12 +8,12 @@ export const styles = StyleSheet.create({
   chartContainer: {
     marginTop: 10,
   },
-  listContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 15,
+  textContainer: {
+    paddingHorizontal: 30,
   },
   title: {
-    fontSize: 29,
-    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });

@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     fontSize: 40,
   },
   chestImg: {
-    borderWidth: 1,
     marginTop: 15,
   },
   phonecatImg:{
