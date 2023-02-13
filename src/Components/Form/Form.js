@@ -4,12 +4,18 @@ import { Formik } from 'formik';
 import { styles } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const Form = ({ addFunc }) => {
+const Form = ({ addFunc, formValues, isEdit }) => {
+
+  const initialValues = {
+    description: "",
+    price: "",
+  }
+
   return (
     <ScrollView>
       <View>
         <Formik
-          initialValues={{ description: "", price: "" }}
+          initialValues={formValues || initialValues}
           onSubmit={(value) => addFunc(value)}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -36,7 +42,11 @@ const Form = ({ addFunc }) => {
                     onPress={handleSubmit}
                     style={styles.button}
                   >
-                    <Text style={styles.buttonText}>ADD</Text>
+                    {isEdit ? (
+                      <Text style={styles.buttonText}>EDIT</Text>
+                    ) : (
+                      <Text style={styles.buttonText}>ADD</Text>
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>

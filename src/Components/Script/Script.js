@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Card from '../Card/Card';
 
-const Script = ({navigation, isTransaction, arr}) => {
+const Script = ({navigation, isTransaction, arr, setShowModal, setFormValue}) => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.container1}>
@@ -22,8 +22,21 @@ const Script = ({navigation, isTransaction, arr}) => {
             )}
           </View>
           {isTransaction
-            ? arr.map((val, id) => <Card value={val} key={id} />)
-            : arr.slice(0, 3).map((val, id) => <Card value={val} key={id} />)}
+            ? arr.map((val, id) => (
+                <Card value={val} key={id} onPress={() => setShowModal(true)} />
+              ))
+            : arr
+                .slice(0, 3)
+                .map((val, id) => (
+                  <Card
+                    value={val}
+                    key={id}
+                    onPress={() => {
+                      setShowModal(true);
+                      setFormValue(val);
+                    }}
+                  />
+                ))}
         </View>
       </View>
     );

@@ -7,7 +7,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import Circle from '../../Components/Circle/Circle';
 import Main from '../../Components/Main/Main';
 import Script from '../../Components/Script/Script';
-import { ScrollView } from 'react-native-gesture-handler';
+import CusModal from '../../Components/Modal/CusModal';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -33,8 +33,33 @@ const HomeScreen = (props) => {
       },
     ]);
 
+    const [showModal, setShowModal] = useState(false);
+    const [formValue, setFormValue] = useState(null);
+
+    const handleEdit = (Transaction) => {
+      const newData = arr.map((val) => {
+        if(val.id == Transaction.id){
+          val.description = Transaction.description;
+          val.price = Transaction.price;
+          return val;
+        }
+        return val;
+      });
+      setArr(newData);
+      setShowModal(false);
+    }
+
     return (
       <>
+        <CusModal
+          addFunc={handleEdit}
+          showModal={showModal}
+          setShowModal={() => {
+            setShowModal(false);
+          }}
+          isEdit={true}
+          formValues={formValue}
+        />
         <View style={styles.mainContainer}>
           <Circle borderColor={COLORS.primary} />
         </View>
@@ -45,7 +70,14 @@ const HomeScreen = (props) => {
           />
           <Tab.Screen
             name="Script"
-            children={() => <Script arr={arr} {...props} />}
+            children={() => (
+              <Script
+                arr={arr}
+                setShowModal={setShowModal}
+                setFormValue={setFormValue}
+                {...props}
+              />
+            )}
           />
         </Tab.Navigator>
       </>
