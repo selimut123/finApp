@@ -4,7 +4,8 @@ import { COLORS } from "../../../util/constant";
 export const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    paddingBottom: 15,
+    borderColor: COLORS.grey,
+    paddingBottom: 10,
     marginTop: 10,
   },
   row: {
@@ -18,7 +19,8 @@ export const styles = StyleSheet.create({
     bottom: 0,
     paddingBottom: 5,
   },
-  text:{
+  text: {
     fontSize: 15,
-  }
+    color: COLORS.white,
+  },
 });

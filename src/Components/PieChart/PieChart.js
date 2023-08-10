@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState, useCallback} from 'react';
 import { View, Text, Button } from 'react-native';
 import Svg, {Circle} from 'react-native-svg';
+import { COLORS } from '../../../util/constant';
 import {
   useSharedValue,
   withTiming,
@@ -26,7 +27,7 @@ const PieChart = ({size = 200, strokeWidth = 20, text, database, color}) => {
 
         let total = 0;
         database.forEach((item) => {
-          total += item.price;
+          total += (item.price * 1.0);
         });
 
         setTotalPrice(total);
@@ -61,7 +62,9 @@ const PieChart = ({size = 200, strokeWidth = 20, text, database, color}) => {
           <View style={styles.container2}>
             <View style={[styles.innerCircle, { backgroundColor: color }]}>
               <Text style={styles.innerTitle}>{text}</Text>
-              <Text style={styles.innerTitle}>{totalPrice}$</Text>
+              <Text style={styles.innerTitle}>
+                {parseFloat(totalPrice).toFixed(2)}$
+              </Text>
             </View>
           </View>
           <View style={[{ width: size, height: size }, styles.rotate]}>
@@ -88,8 +91,11 @@ const PieChart = ({size = 200, strokeWidth = 20, text, database, color}) => {
               <View
                 style={[styles.smallCircle, { backgroundColor: item.color }]}
               ></View>
-              <Text>{item.description}</Text>
-              <Text> {parseFloat(item.percent * 100).toFixed(2)}%</Text>
+              <Text style={{ color: COLORS.white }}>{item.description}</Text>
+              <Text style={{ color: COLORS.white }}>
+                {" "}
+                {parseFloat(item.percent * 100).toFixed(2)}%
+              </Text>
             </View>
           ))}
         </View>

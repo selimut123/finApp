@@ -1,8 +1,13 @@
 import { View, Text, Dimensions } from "react-native";
 
 export const COLORS = {
-  primary: "#689BFF",
+  primary: "#84DFE2",
   secondary: "#E8F5FF",
+  background: "#141414",
+  onprimary: "#282828",
+  white: "#FFFFFF",
+  grey: "#707070",
+  green: "#00FF44",
 };
 
 

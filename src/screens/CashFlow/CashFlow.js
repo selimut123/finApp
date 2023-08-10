@@ -27,10 +27,29 @@ const CashFlow = ({navigation}) => {
         price: 630,
       },
     ]);
+
+    const [arr, setArr] = useState([
+      {
+        description: "Allowance",
+        price: 2250,
+      },
+      {
+        description: "Rent",
+        price: 1290,
+      },
+      {
+        description: "Daily Expense",
+        price: 700,
+      },
+      {
+        description: "1 BNB Crypto",
+        price: 630,
+      },
+    ]);
     return (
       <ScrollView>
         <View style={styles.mainContainer}>
-          <Circle borderColor="#07FFAA" />
+          <Circle borderColor="#07FFAA" data={arr}/>
           <View style={styles.container1}>
             <View>
               <Text style={[styles.title, { borderBottomWidth: 1 }]}>

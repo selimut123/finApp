@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../util/constant";
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,12 +9,6 @@ export const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     paddingVertical: 10,
-  },
-  titleStyle: {
-    alignSelf: "center",
-    paddingBottom: 20,
-    fontSize: 18,
-    fontWeight: "700",
   },
   rotate: {
     transform: [{ rotateZ: "-90deg" }],
@@ -37,6 +32,7 @@ export const styles = StyleSheet.create({
   innerTitle: {
     fontSize: 20,
     fontWeight: "bold",
+    color: COLORS.white,
   },
   container3: {
     paddingHorizontal: 20,

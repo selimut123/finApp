@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { COLORS } from '../../../util/constant';
+import CusModal from '../../Components/Modal/CusModal';
 import Script from '../../Components/Script/Script';
 
 const TransactionList = () => {
@@ -30,8 +33,42 @@ const TransactionList = () => {
       },
     ]);
 
+    const [showModal, setShowModal] = useState(false);
+    const [formValue, setFormValue] = useState();
+
+    const handleEdit = (Transaction) => {
+      const newData = arr.map((val) => {
+        if (val.id == Transaction.id) {
+          val.description = Transaction.description;
+          val.price = Transaction.price;
+          return val;
+        }
+        return val;
+      });
+      setArr(newData);
+      setShowModal(false);
+    }
+
     return (
-        <Script isTransaction={true} arr={arr}/>
+      <ScrollView style={{flex: 1, backgroundColor: COLORS.background}}>
+        <CusModal
+          addFunc={handleEdit}
+          showModal={showModal}
+          setShowModal={() => {
+            setShowModal(false);
+          }}
+          isEdit={true}
+          formValues={formValue}
+          title={"Edit Transaction"}
+        />
+        <Script
+          isTransaction={true}
+          arr={arr}
+          setShowModal={setShowModal}
+          setFormValue={setFormValue}
+          title={"Monthly Transaction"}
+        />
+      </ScrollView>
     );
 }
 

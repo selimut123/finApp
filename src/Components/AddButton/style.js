@@ -3,13 +3,12 @@ import { COLORS } from "../../../util/constant";
 
 export const styles = StyleSheet.create({
   button: {
-    borderWidth: 3,
-    borderRadius: 50,
-    height: 50,
-    width: 50,
+    borderRadius: 55,
+    height: 55,
+    width: 55,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#3D98F3",
+    backgroundColor: COLORS.primary,
   },
   container: {
     position: "absolute",

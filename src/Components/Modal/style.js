@@ -1,18 +1,14 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../util/constant";
 
 export const styles = StyleSheet.create({
-  backgroundContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-  },
   boxContainer: {
-    width: "80%",
-    backgroundColor: "white",
+    width: "100%",
+    backgroundColor: COLORS.onprimary,
     paddingVertical: 10,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: COLORS.grey,
   },
   row: {
     display: "flex",
@@ -21,7 +17,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingTop: 10,
   },
-  title:{
+  title: {
     fontSize: 20,
+    color: COLORS.white,
+  },
+  scrollModal: {
+    flex: 1,
+    justifyContent: "center",
   },
 });

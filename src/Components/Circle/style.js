@@ -15,28 +15,31 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   innercircle: {
-    borderRadius: 200,
+    borderRadius: 240,
     width: 200,
     height: 200,
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.onprimary,
   },
   textContainer: {
     flex: 1,
     marginHorizontal: "auto",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
   },
   text: {
     fontSize: 20,
     fontWeight: "bold",
+    color: COLORS.white,
   },
   numText: {
-    fontSize: 40,
+    fontSize: 20,
+    color: COLORS.white,
   },
   chestImg: {
-    marginTop: 15,
+    marginTop: 30,
   },
-  phonecatImg:{
+  phonecatImg: {
     position: "absolute",
     right: 0,
     bottom: 0,

@@ -4,7 +4,7 @@ import { COLORS } from "../../../util/constant";
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.background,
   },
   chartContainer: {
     marginTop: 10,
@@ -14,7 +14,23 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
   },
   title: {
-    fontSize: 29,
-    textAlign: "center",
+    paddingVertical: 10,
+    fontSize: 20,
+    textAlign: "left",
+    color: COLORS.white,
   },
+  titleContainer:{
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  addButton: {
+    backgroundColor: COLORS.green,
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderColor: COLORS.grey,
+  }
 });

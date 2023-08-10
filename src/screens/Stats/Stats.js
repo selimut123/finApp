@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { styles } from './style';
 import {LineChart} from "react-native-chart-kit";
-import { screenWidth } from '../../../util/constant';
+import { COLORS, screenWidth } from '../../../util/constant';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stats = ({navigation}) => {
@@ -25,12 +25,8 @@ const Stats = ({navigation}) => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Total Saving: </Text>
+          <Text style={styles.title}>AVG Spending: </Text>
           <Text style={styles.totalSave}>750 $</Text>
-          <Image
-            style={styles.chestImg}
-            source={require("../../../assets/chest.png")}
-          />
         </View>
         <View style={styles.chartContainer}>
           <LineChart
@@ -48,10 +44,10 @@ const Stats = ({navigation}) => {
             yAxisInterval={1} // optional, defaults to 1
             chartConfig={{
               decimalPlaces: 2,
-              backgroundGradientFrom: "#FFF",
-              backgroundGradientTo: "#FFF",
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              backgroundGradientFrom: COLORS.background,
+              backgroundGradientTo: COLORS.background,
+              color: (opacity = 0) => COLORS.primary,
+              labelColor: (opacity = 1) => COLORS.white,
               strokeWidth: 2, // optional, default 3
               barPercentage: 0.5,
               useShadowColorFromDataset: false, // optional
@@ -72,8 +68,10 @@ const Stats = ({navigation}) => {
               }}
             >
               <View style={styles.monContainer}>
-                <Text style={{ fontSize: 20 }}>{val.date}</Text>
-                <Text style={styles.priceText}>+ {val.price} $</Text>
+                <Text style={{ fontSize: 20, color: COLORS.white }}>
+                  {val.date}
+                </Text>
+                <Text style={styles.priceText}>{val.price} $</Text>
               </View>
             </TouchableOpacity>
           ))}

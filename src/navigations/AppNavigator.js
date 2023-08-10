@@ -8,7 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import ScreenLock from '../screens/ScreenLock/ScreenLock';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import TransactionList from '../screens/TransactionList/TransactionList';
-import CashFlow from '../screens/CashFlow/CashFlow';
+// import CashFlow from '../screens/CashFlow/CashFlow';
 import Stats from '../screens/Stats/Stats';
 import Summary from '../screens/Summary/Summary';
 import Subscription from '../screens/Subscription/Subscription';
@@ -28,15 +28,16 @@ function stackNavigator(){
           screenOptions={{
             title: "",
             headerStyle: {
-              backgroundColor: COLORS.primary,
+              backgroundColor: COLORS.onprimary,
             },
             drawerIcon: (props) => {},
-            headerTintColor: "#000",
+            drawerInactiveTintColor: COLORS.white,
+            headerTintColor: COLORS.white,
             headerTitleAlign: "center",
             headerRight: () => (
               <View
                 style={{
-                  backgroundColor: COLORS.secondary,
+                  backgroundColor: COLORS.primary,
                   borderRadius: 5,
                   paddingHorizontal: 10,
                   paddingVertical: 3,
@@ -70,6 +71,7 @@ function stackNavigator(){
               title: "Home",
               headerTitle: "",
             }}
+            
           />
           <Drawer.Screen
             name="TransactionList"
@@ -79,19 +81,19 @@ function stackNavigator(){
               headerTitle: "",
             }}
           />
-          <Drawer.Screen
+          {/* <Drawer.Screen
             name="CashFlow"
             component={CashFlow}
             options={{
               title: "CashFlow",
               headerTitle: "",
             }}
-          />
+          /> */}
           <Drawer.Screen
             name="Stats"
             component={Stats}
             options={{
-              title: "Total Saving",
+              title: "Spending",
               headerTitle: "",
             }}
           />
@@ -110,7 +112,7 @@ function stackNavigator(){
               headerTitle: "",
             }}
           />
-          <Drawer.Screen
+          {/* <Drawer.Screen
             name="Income"
             component={Income}
             options={{
@@ -149,7 +151,7 @@ function stackNavigator(){
               title: "Bank Page",
               headerTitle: "",
             }}
-          />
+          /> */}
         </Drawer.Navigator>
       </NavigationContainer>
     );

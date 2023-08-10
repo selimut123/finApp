@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import { Text, View, Image, Button, KeyboardAvoidingView } from "react-native";
 import { COLORS } from "../../../util/constant";
 import { styles } from './style';
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { getCurrentDate } from "../../../util/function";
 
 import Circle from '../../Components/Circle/Circle';
-import Main from '../../Components/Main/Main';
 import Script from '../../Components/Script/Script';
 import CusModal from '../../Components/Modal/CusModal';
-
-const Tab = createMaterialTopTabNavigator();
+import AddButton from '../../Components/AddButton/AddButton';
 
 const HomeScreen = (props) => {
     const [arr, setArr] = useState([
@@ -34,6 +32,7 @@ const HomeScreen = (props) => {
     ]);
 
     const [showModal, setShowModal] = useState(false);
+    const [editShowModal, setEditShowModal] = useState(false);
     const [formValue, setFormValue] = useState(null);
 
     const handleEdit = (Transaction) => {
@@ -46,40 +45,53 @@ const HomeScreen = (props) => {
         return val;
       });
       setArr(newData);
-      setShowModal(false);
+      setEditShowModal(false);
     }
+    
+    const addTrans = (Transaction) => {
+      Transaction.id = Math.random.toString();
+      Transaction.date = getCurrentDate();
+      setArr((currTrans) => {
+        return [Transaction, ...currTrans];
+      });
+      setShowModal(false);
+    };
 
     return (
       <>
         <CusModal
-          addFunc={handleEdit}
-          showModal={showModal}
+          addFunc={addTrans}
           setShowModal={() => {
             setShowModal(false);
           }}
+          showModal={showModal}
+          title={"Add Transaction"}
+        />
+        <CusModal
+          addFunc={handleEdit}
+          showModal={editShowModal}
+          setShowModal={() => {
+            setEditShowModal(false);
+          }}
           isEdit={true}
           formValues={formValue}
+          title={"Edit Transaction"}
         />
         <View style={styles.mainContainer}>
-          <Circle borderColor={COLORS.primary} />
+          <Circle borderColor={COLORS.primary} data={arr} />
+          <Script
+            arr={arr}
+            setShowModal={setEditShowModal}
+            setFormValue={setFormValue}
+            {...props}
+            title={"Newest Transaction"}
+          />
+          <AddButton
+            onPress={() => {
+              setShowModal(true);
+            }}
+          />
         </View>
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Main"
-            children={() => <Main setArr={setArr} {...props} />}
-          />
-          <Tab.Screen
-            name="Script"
-            children={() => (
-              <Script
-                arr={arr}
-                setShowModal={setShowModal}
-                setFormValue={setFormValue}
-                {...props}
-              />
-            )}
-          />
-        </Tab.Navigator>
       </>
     );
 }
