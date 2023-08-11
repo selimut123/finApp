@@ -23,7 +23,7 @@ const Form = ({ addFunc, formValues, isEdit, isSubs }) => {
     price: "",
     duration: "month",
     date: getFormatedDate(
-      new Date().setDate(new Date().getDate()),
+      new Date().setDate(new Date().getDate() + 1),
       "YYYY/MM/DD"
     ),
   };

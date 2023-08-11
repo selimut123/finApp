@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Text, View, Image, Button, KeyboardAvoidingView } from "react-native";
 import { COLORS } from "../../../util/constant";
 import { styles } from './style';
@@ -8,6 +8,7 @@ import Circle from '../../Components/Circle/Circle';
 import Script from '../../Components/Script/Script';
 import CusModal from '../../Components/Modal/CusModal';
 import AddButton from '../../Components/AddButton/AddButton';
+import api from '../../../util/api';
 
 const HomeScreen = (props) => {
     const [arr, setArr] = useState([
@@ -30,6 +31,20 @@ const HomeScreen = (props) => {
         date: "Tuesday, March 30, 2021",
       },
     ]);
+
+    const getExpenses = async () => {
+      try{
+        const responseData = await api.get('/expense/');
+        console.log(responseData);
+      }catch(err){
+        console.log(err);
+        return;
+      }
+    }
+
+    useEffect(() => {
+      getExpenses();
+    }, []);
 
     const [showModal, setShowModal] = useState(false);
     const [editShowModal, setEditShowModal] = useState(false);

@@ -12,10 +12,10 @@ import ModernDatePicker from "react-native-modern-datepicker";
 import { getFormatedDate } from "react-native-modern-datepicker";
 import { COLORS } from "../../../util/constant";
 
-const DatePicker = ({showDatePicker, setShowDatePicker, setData, val}) => {
+const DatePicker = ({showDatePicker, setShowDatePicker, setData}) => {
   const today = new Date();
   const startDate = getFormatedDate(
-    today.setDate(today.getDate()),
+    today.setDate(today.getDate() + 1),
     "YYYY/MM/DD"
   );
   
