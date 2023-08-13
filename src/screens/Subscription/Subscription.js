@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { View, Text, TouchableOpacity} from "react-native";
 import { styles } from './style';
 import { getCurrentDate } from "../../../util/function";
@@ -7,64 +7,59 @@ import { COLORS } from "../../../util/constant";
 import PieChart from "../../Components/PieChart/PieChart";
 import CusModal from "../../Components/Modal/CusModal";
 import { ScrollView } from "react-native-gesture-handler";
+import api from "../../../util/api";
+import moment from "moment";
 
 function Subscription(){
-    const [arr, setArr] = useState([
-      {
-        id: 1,
-        description: "Wingstop",
-        price: 25,
-        duration: "month",
-        date: "2023/08/12",
-      },
-      {
-        id: 2,
-        description: "Wingstop",
-        price: 50,
-        duration: "annual",
-        date: "2023/08/12",
-      },
-      {
-        id: 3,
-        description: "Wingstop",
-        price: 25,
-        duration: "month",
-        date: "2023/08/12",
-      },
-      {
-        id: 4,
-        description: "Chegg",
-        price: 12,
-        duration: "month",
-        date: "2023/08/12",
-      },
-    ]);
+    const [arr, setArr] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [formValue, setFormValue] = useState(null);
 
-    const addSubs = (Subscription) => {
-      Subscription.id = Math.floor(Math.random() * 100);
-      Subscription.price = parseFloat(Subscription.price);
-      setArr((currSubs) => {
-        return [Subscription, ...currSubs];
-      });
+    const getSubscriptions = async () => {
+      try{
+        const responseData = await api.get('/subs/');
+        setArr(responseData.data);
+      }catch(err){
+        console.log(err);
+        return;
+      }
+    }
+
+    useEffect(() => {
+      getSubscriptions();
+    }, []);
+
+    const addSubs = async (Subscription) => {
+      try{
+        await api.post('/subs/', {
+          "description": Subscription.description,
+          "price": Subscription.price,
+          "duration": Subscription.duration,
+          "date": new Date(Subscription.date),
+        });
+        await getSubscriptions();
+      }catch(err){
+        console.log(err);
+        return;
+      }
       setShowModal(false);
     };
 
-    const handleEdit = (Subscription) => {
-      const newData = arr.map((val) => {
-        if (val.id == Subscription.id) {
-          val.description = Subscription.description;
-          val.price = parseFloat(Subscription.price);
-          val.duration = Subscription.duration;
-          val.date = Subscription.date;
-          return val;
-        }
-        return val;
-      });
-      setArr(newData);
+    const handleEdit = async (Subscription) => {
+      try{
+        await api.patch(`/subs/${Subscription._id}`, {
+          "description": Subscription.description,
+          "price": Subscription.price,
+          "duration": Subscription.duration,
+          "date": new Date(Subscription.date),
+        });
+        await getSubscriptions();
+      }catch(err){
+        console.log(err);
+        return;
+      }
       setShowEditModal(false);
     }
 
@@ -167,7 +162,7 @@ function Subscription(){
                           fontSize: 12,
                         }}
                       >
-                        {val.date}
+                        {moment(val.date).format("DD MMM YYYY")}
                       </Text>
                     </View>
                   </View>

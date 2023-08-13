@@ -1,41 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import { Text, View, Image, Button, KeyboardAvoidingView } from "react-native";
+import React, {useEffect, useState, useCallback} from 'react';
+import { Text, View, Image, Button, KeyboardAvoidingView, RefreshControl } from "react-native";
 import { COLORS } from "../../../util/constant";
 import { styles } from './style';
-import { getCurrentDate } from "../../../util/function";
 
 import Circle from '../../Components/Circle/Circle';
 import Script from '../../Components/Script/Script';
 import CusModal from '../../Components/Modal/CusModal';
 import AddButton from '../../Components/AddButton/AddButton';
 import api from '../../../util/api';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const HomeScreen = (props) => {
-    const [arr, setArr] = useState([
-      {
-        id: 1,
-        description: "Wingstop purchased",
-        price: "24.14",
-        date: "Tuesday, March 30, 2021",
-      },
-      {
-        id: 2,
-        description: "Wingstop purchased",
-        price: "24.1",
-        date: "Tuesday, March 30, 2021",
-      },
-      {
-        id: 3,
-        description: "Wingstop purchased",
-        price: "24.14",
-        date: "Tuesday, March 30, 2021",
-      },
-    ]);
+    const [arr, setArr] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(async () => {
+      setRefreshing(true);
+      await getExpenses();
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     const getExpenses = async () => {
       try{
         const responseData = await api.get('/expense/');
-        console.log(responseData);
+        setArr(responseData.data);
       }catch(err){
         console.log(err);
         return;
@@ -50,25 +41,31 @@ const HomeScreen = (props) => {
     const [editShowModal, setEditShowModal] = useState(false);
     const [formValue, setFormValue] = useState(null);
 
-    const handleEdit = (Transaction) => {
-      const newData = arr.map((val) => {
-        if(val.id == Transaction.id){
-          val.description = Transaction.description;
-          val.price = Transaction.price;
-          return val;
-        }
-        return val;
-      });
-      setArr(newData);
+    const handleEdit = async (Transaction) => {
+      try{
+        await api.patch(`/expense/${Transaction._id}`, {
+          "description": Transaction.description,
+          "price": Transaction.price,
+        });
+        await getExpenses();
+      }catch(err){
+        console.log(err);
+        return;
+      }
       setEditShowModal(false);
     }
     
-    const addTrans = (Transaction) => {
-      Transaction.id = Math.random.toString();
-      Transaction.date = getCurrentDate();
-      setArr((currTrans) => {
-        return [Transaction, ...currTrans];
-      });
+    const addTrans = async (Transaction) => {
+      try{
+        await api.post('/expense/', {
+          "description": Transaction.description,
+          "price": Transaction.price,
+        });
+        await getExpenses();
+      }catch(err){
+        console.log(err);
+        return;
+      }
       setShowModal(false);
     };
 
@@ -92,21 +89,26 @@ const HomeScreen = (props) => {
           formValues={formValue}
           title={"Edit Transaction"}
         />
-        <View style={styles.mainContainer}>
-          <Circle borderColor={COLORS.primary} data={arr} />
-          <Script
-            arr={arr}
-            setShowModal={setEditShowModal}
-            setFormValue={setFormValue}
-            {...props}
-            title={"Newest Transaction"}
-          />
-          <AddButton
-            onPress={() => {
-              setShowModal(true);
-            }}
-          />
-        </View>
+          <ScrollView
+            contentContainerStyle={styles.mainContainer}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            <Circle borderColor={COLORS.primary} data={arr} />
+            <Script
+              arr={arr}
+              setShowModal={setEditShowModal}
+              setFormValue={setFormValue}
+              {...props}
+              title={"Newest Transaction"}
+            />
+            <AddButton
+              onPress={() => {
+                setShowModal(true);
+              }}
+            />
+          </ScrollView>
       </>
     );
 }

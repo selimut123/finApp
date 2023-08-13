@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { styles } from './style';
-import {LineChart} from "react-native-chart-kit";
 import { COLORS, screenWidth } from '../../../util/constant';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import api from '../../../util/api';
+import LineChart from '../../Components/LineChart/LineChart';
+import moment from 'moment';
 
 const Stats = ({navigation}) => {
     
@@ -22,19 +24,57 @@ const Stats = ({navigation}) => {
       },
     ]);
 
+    const [arr, setArr] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [chartValue, setChartValue] = useState({
+      labels: [""],
+      datasets: [
+        {
+          data: [0]
+        },
+      ],
+    });
+
+    const getReports = async () => {
+      try{
+        setIsLoading(true);
+        const response = await api.get('/report/');
+        const responseData = response.data;
+        setArr(responseData);
+        setIsLoading(false);
+      }catch(err){
+        console.log(err);
+        return;
+      }
+    }
+
+    useEffect(() => {
+      getReports();
+    }, []);
+
     return (
       <View style={styles.mainContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>AVG Spending: </Text>
           <Text style={styles.totalSave}>750 $</Text>
         </View>
-        <View style={styles.chartContainer}>
+        <View>
+          <LineChart/>
+        </View>
+        {/* {
+          isLoading ? <></> : 
           <LineChart
             data={{
-              labels: ["March, 2022", "April, 2022", "May, 2022"],
+              labels: ["", arr.map((val) => moment(val._id).format("MMM YYYY"))],
               datasets: [
                 {
-                  data: [200, 300, 250],
+                  data: [0, arr.map((val) => {
+                    let total = 0;
+                    // val.expenses.map((val) => {
+                    //   total += parseFloat(val.price);
+                    // });
+                    return total;
+                  })],
                 },
               ],
             }}
@@ -57,7 +97,7 @@ const Stats = ({navigation}) => {
               borderRadius: 16,
             }}
           />
-        </View>
+        } */}
         <View style={styles.sumContainer}>
           <Text style={styles.sumTitle}>Monthly Summary</Text>
           {sum.map((val, id) => (

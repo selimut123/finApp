@@ -77,7 +77,7 @@ function stackNavigator(){
             name="TransactionList"
             component={TransactionList}
             options={{
-              title: "Monthly Transaction",
+              title: "Transaction History",
               headerTitle: "",
             }}
           />

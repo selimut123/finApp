@@ -8,6 +8,7 @@ import Picker from '../Picker/Picker';
 import DatePicker from '../DatePicker/DatePicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import moment from 'moment';
 
 const Form = ({ addFunc, formValues, isEdit, isSubs }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -22,10 +23,7 @@ const Form = ({ addFunc, formValues, isEdit, isSubs }) => {
     description: "",
     price: "",
     duration: "month",
-    date: getFormatedDate(
-      new Date().setDate(new Date().getDate() + 1),
-      "YYYY/MM/DD"
-    ),
+    date: new Date().setDate(new Date().getDate() + 1),
   };
 
   const addButton = (handleSubmit, subButton) => {
@@ -133,14 +131,14 @@ const Form = ({ addFunc, formValues, isEdit, isSubs }) => {
             <DatePicker
               setShowDatePicker={() => setShowDatePicker(false)}
               showDatePicker={showDatePicker}
-              setData={(data) => {console.log(data); setFieldValue("date", data);}}
+              setData={(data) => {setFieldValue("date", data);}}
               val={values.date}
             />
             <View style={styles.inputContainer}>
               <Text style={styles.inputText}>Next Payment Date</Text>
               <TouchableOpacity onPress={() => setShowDatePicker(true)}>
                 <TextInput
-                  value={values.date}
+                  value={moment(values.date).format("DD MMM YYYY")}
                   style={styles.input}
                   editable={false}
                 />

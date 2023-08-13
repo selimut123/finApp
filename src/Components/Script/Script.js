@@ -43,7 +43,7 @@ const Script = ({navigation, isTransaction, arr, setShowModal, setFormValue, tit
                   }}
                 />
               ))
-            : arr.slice(0, 3).map((val, id) => (
+            : arr.slice(-3).map((val, id) => (
                 <Card
                   value={val}
                   key={id}
