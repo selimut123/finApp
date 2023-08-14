@@ -1,12 +1,11 @@
 import React, {useState, useEffect, useCallback} from "react";
-import { View, Text, TouchableOpacity, RefreshControl} from "react-native";
+import { View, Text, TouchableOpacity, RefreshControl, ScrollView} from "react-native";
 import { styles } from './style';
 import { COLORS } from "../../../util/constant";
 import { parseISO } from "date-fns";
 
 import PieChart from "../../Components/PieChart/PieChart";
 import CusModal from "../../Components/Modal/CusModal";
-import { ScrollView } from "react-native-gesture-handler";
 import api from "../../../util/api";
 import moment from "moment";
 import AppLoader from "../../Components/AppLoader";

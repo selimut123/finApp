@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import { COLORS } from '../../util/constant';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -24,6 +24,11 @@ const Drawer = createDrawerNavigator();
 function stackNavigator(){
     return (
       <NavigationContainer>
+        <StatusBar
+          animated={true}
+          backgroundColor={COLORS.onprimary}
+          barStyle={"light-content"}
+        />
         <Drawer.Navigator
           screenOptions={{
             title: "",
@@ -71,7 +76,6 @@ function stackNavigator(){
               title: "Home",
               headerTitle: "",
             }}
-            
           />
           <Drawer.Screen
             name="TransactionList"

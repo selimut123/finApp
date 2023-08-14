@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { View, Text, RefreshControl } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, Text, RefreshControl, ScrollView } from 'react-native';
 import { COLORS } from '../../../util/constant';
 import CusModal from '../../Components/Modal/CusModal';
 import Script from '../../Components/Script/Script';
 import api from '../../../util/api';
 import AppLoader from '../../Components/AppLoader';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TransactionList = () => {
     const [arr, setArr] = useState([]);
@@ -56,7 +56,11 @@ const TransactionList = () => {
 
     return (
       <>
-        {isLoading ? <AppLoader/> : <></>}
+        {isLoading ? <AppLoader /> : <></>}
+        <SafeAreaView>
+          
+        </SafeAreaView>
+
         <ScrollView
           style={{ flex: 1, backgroundColor: COLORS.background }}
           refreshControl={

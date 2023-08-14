@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import { RefreshControl } from "react-native";
+import { RefreshControl, ScrollView } from "react-native";
 import { COLORS } from "../../../util/constant";
 import { styles } from './style';
 
@@ -8,7 +8,6 @@ import Script from '../../Components/Script/Script';
 import CusModal from '../../Components/Modal/CusModal';
 import AddButton from '../../Components/AddButton/AddButton';
 import api from '../../../util/api';
-import { ScrollView } from 'react-native-gesture-handler';
 import AppLoader from '../../Components/AppLoader';
 
 const HomeScreen = (props) => {
