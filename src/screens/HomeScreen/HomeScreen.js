@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import { Text, View, Image, Button, KeyboardAvoidingView, RefreshControl } from "react-native";
+import { RefreshControl } from "react-native";
 import { COLORS } from "../../../util/constant";
 import { styles } from './style';
 
@@ -8,25 +8,28 @@ import Script from '../../Components/Script/Script';
 import CusModal from '../../Components/Modal/CusModal';
 import AddButton from '../../Components/AddButton/AddButton';
 import api from '../../../util/api';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
+import AppLoader from '../../Components/AppLoader';
 
 const HomeScreen = (props) => {
     const [arr, setArr] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onRefresh = useCallback(async () => {
       setRefreshing(true);
       await getExpenses();
       setTimeout(() => {
         setRefreshing(false);
-      }, 2000);
+      }, 0);
     }, []);
 
     const getExpenses = async () => {
       try{
+        setIsLoading(true);
         const responseData = await api.get('/expense/');
         setArr(responseData.data);
+        setIsLoading(false);
       }catch(err){
         console.log(err);
         return;
@@ -43,6 +46,7 @@ const HomeScreen = (props) => {
 
     const handleEdit = async (Transaction) => {
       try{
+        setIsLoading(true);
         await api.patch(`/expense/${Transaction._id}`, {
           "description": Transaction.description,
           "price": Transaction.price,
@@ -57,6 +61,7 @@ const HomeScreen = (props) => {
     
     const addTrans = async (Transaction) => {
       try{
+        setIsLoading(true);
         await api.post('/expense/', {
           "description": Transaction.description,
           "price": Transaction.price,
@@ -89,26 +94,27 @@ const HomeScreen = (props) => {
           formValues={formValue}
           title={"Edit Transaction"}
         />
-          <ScrollView
-            contentContainerStyle={styles.mainContainer}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <Circle borderColor={COLORS.primary} data={arr} />
-            <Script
-              arr={arr}
-              setShowModal={setEditShowModal}
-              setFormValue={setFormValue}
-              {...props}
-              title={"Newest Transaction"}
-            />
-            <AddButton
-              onPress={() => {
-                setShowModal(true);
-              }}
-            />
-          </ScrollView>
+        <ScrollView
+          contentContainerStyle={styles.mainContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <Circle borderColor={COLORS.primary} data={arr} />
+          <Script
+            arr={arr}
+            setShowModal={setEditShowModal}
+            setFormValue={setFormValue}
+            {...props}
+            title={"Newest Transaction"}
+          />
+          <AddButton
+            onPress={() => {
+              setShowModal(true);
+            }}
+          />
+        </ScrollView>
+        {isLoading ? <AppLoader /> : <></>}
       </>
     );
 }

@@ -7,6 +7,14 @@ import Card from '../Card/Card';
 import { COLORS } from '../../../util/constant';
 
 const Script = ({navigation, isTransaction, arr, setShowModal, setFormValue, title}) => {
+
+  const arrayIsEmpty = () => {
+    return (
+      <View style={styles.mainContainer}>
+        <Text style={{color: COLORS.white, textAlign: 'center', marginTop: 20,}}>You don't have Transaction yet!</Text>
+      </View>
+    );
+  }
     return (
       <View
         style={[
@@ -32,6 +40,12 @@ const Script = ({navigation, isTransaction, arr, setShowModal, setFormValue, tit
               </TouchableOpacity>
             )}
           </View>
+          {
+            arr.length === 0 ? 
+          <Text style={{ color: COLORS.white, textAlign: "center" }}>
+            You don't have Transaction yet!
+          </Text> : <></>
+          }
           {isTransaction
             ? arr.map((val, id) => (
                 <Card
