@@ -1,46 +1,65 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import { View, Text, ScrollView, RefreshControl} from 'react-native';
 import { styles } from './style';
-import { COLORS, screenWidth } from '../../../util/constant';
+import { COLORS } from '../../../util/constant';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../../../util/api';
 import LineChart from '../../Components/LineChart/LineChart';
 import moment from 'moment';
 
 const Stats = ({navigation}) => {
-    
-    const [sum, setSum] = useState([
-      {
-        date: "March, 2022",
-        price: 200,
-      },
-      {
-        date: "April, 2022",
-        price: 300,
-      },
-      {
-        date: "May, 2022",
-        price: 250,
-      },
-    ]);
-
     const [arr, setArr] = useState([]);
+    const [arr2, setArr2] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [chartValue, setChartValue] = useState({
-      labels: [""],
-      datasets: [
-        {
-          data: [0]
-        },
-      ],
-    });
+
+    const [avg, setAvg] = useState(0);
+    
+    const onRefresh = useCallback(async () => {
+      setRefreshing(true);
+      await getReports();
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     const getReports = async () => {
       try{
         setIsLoading(true);
         const response = await api.get('/report/');
         const responseData = response.data;
-        setArr(responseData);
+        let all = 0;
+        setArr(
+          [...responseData]
+            .map((entry) => {
+              let total = 0;
+              entry.expenses.map((exp) => {
+                total += parseFloat(exp.price);
+              });
+              all += total;
+              return {
+                date: entry._id,
+                total: total,
+              };
+            })
+        );
+        setArr2(
+          [...responseData]
+          .sort((a, b) => a.date > b.date ? 1 : -1)
+          .map((entry) => {
+            let total = 0;
+            entry.expenses.map((exp) => {
+              total += parseFloat(exp.price);
+            });
+
+            return {
+              date: entry._id,
+              total: total,
+              expenses: entry.expenses,
+            };
+          })
+        );
+        setAvg(all / (responseData.length));
         setIsLoading(false);
       }catch(err){
         console.log(err);
@@ -54,68 +73,40 @@ const Stats = ({navigation}) => {
 
     return (
       <View style={styles.mainContainer}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>AVG Spending: </Text>
-          <Text style={styles.totalSave}>750 $</Text>
-        </View>
-        <View>
-          <LineChart/>
-        </View>
-        {/* {
-          isLoading ? <></> : 
-          <LineChart
-            data={{
-              labels: ["", arr.map((val) => moment(val._id).format("MMM YYYY"))],
-              datasets: [
-                {
-                  data: [0, arr.map((val) => {
-                    let total = 0;
-                    // val.expenses.map((val) => {
-                    //   total += parseFloat(val.price);
-                    // });
-                    return total;
-                  })],
-                },
-              ],
-            }}
-            width={screenWidth - 50} // from react-native
-            height={220}
-            yAxisLabel="$"
-            yAxisInterval={1} // optional, defaults to 1
-            chartConfig={{
-              decimalPlaces: 2,
-              backgroundGradientFrom: COLORS.background,
-              backgroundGradientTo: COLORS.background,
-              color: (opacity = 0) => COLORS.primary,
-              labelColor: (opacity = 1) => COLORS.white,
-              strokeWidth: 2, // optional, default 3
-              barPercentage: 0.5,
-              useShadowColorFromDataset: false, // optional
-            }}
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
-        } */}
-        <View style={styles.sumContainer}>
-          <Text style={styles.sumTitle}>Monthly Summary</Text>
-          {sum.map((val, id) => (
-            <TouchableOpacity
-              key={id}
-              onPress={() => {
-                navigation.navigate("Summary");
-              }}
-            >
-              <View style={styles.monContainer}>
-                <Text style={{ fontSize: 20, color: COLORS.white }}>
-                  {val.date}
-                </Text>
-                <Text style={styles.priceText}>{val.price} $</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>AVG Spending: </Text>
+            <Text style={styles.totalSave}>{avg.toFixed(1)} $</Text>
+          </View>
+          <View>
+            <LineChart data={arr} />
+          </View>
+          <View style={styles.sumContainer}>
+            <Text style={styles.sumTitle}>Monthly Summary</Text>
+            {arr2.map((val, id) => (
+              <TouchableOpacity
+                key={id}
+                onPress={() => {
+                  navigation.navigate("Summary", {
+                    paramKey: val.expenses || null,
+                    total: val.total || null,
+                  });
+                }}
+              >
+                <View style={styles.monContainer}>
+                  <Text style={{ fontSize: 20, color: COLORS.white }}>
+                    {moment(val.date).format("MMMM, YYYY")}
+                  </Text>
+                  <Text style={styles.priceText}>{val.total.toFixed(1)} $</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
       </View>
     );
 }

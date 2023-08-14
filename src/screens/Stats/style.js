@@ -48,8 +48,4 @@ export const styles = StyleSheet.create({
     bottom: 0,
     marginBottom: 2,
   },
-  chartContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
 });

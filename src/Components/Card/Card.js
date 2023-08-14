@@ -15,11 +15,11 @@ const Card = (props) => {
               <View style={styles.row}>
                 <Text style={styles.text}>{moment(props.value.date).format('dddd, DD MMM YYYY')}</Text>
                 <Text style={{ color: COLORS.white }}>
-                  {props.value.price} $
+                  {parseFloat(props.value.price).toFixed(1)} $
                 </Text>
               </View>
-              <Text style={{ color: COLORS.white }}>
-                {props.value.description}
+              <Text style={{ color: COLORS.yellow }}>
+                {props.value.description} 
               </Text>
             </View>
           </TouchableOpacity>

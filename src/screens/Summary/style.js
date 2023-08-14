@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 10,
   },
   mainTitle: {
@@ -42,7 +43,6 @@ export const styles = StyleSheet.create({
   },
   priceTitle: {
     fontSize: 35,
-    marginLeft: 20,
     color: COLORS.green,
   },
   backButton: {

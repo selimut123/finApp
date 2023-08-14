@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
-import { View, Text, TouchableOpacity} from "react-native";
+import React, {useState, useEffect, useCallback} from "react";
+import { View, Text, TouchableOpacity, RefreshControl} from "react-native";
 import { styles } from './style';
-import { getCurrentDate } from "../../../util/function";
 import { COLORS } from "../../../util/constant";
+import { parseISO } from "date-fns";
 
 import PieChart from "../../Components/PieChart/PieChart";
 import CusModal from "../../Components/Modal/CusModal";
@@ -12,10 +12,19 @@ import moment from "moment";
 
 function Subscription(){
     const [arr, setArr] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [formValue, setFormValue] = useState(null);
+
+    const onRefresh = useCallback(async () => {
+      setRefreshing(true);
+      await getSubscriptions();
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     const getSubscriptions = async () => {
       try{
@@ -65,7 +74,11 @@ function Subscription(){
 
     return (
       <View style={styles.mainContainer}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <CusModal
             addFunc={addSubs}
             setShowModal={() => {
@@ -112,66 +125,24 @@ function Subscription(){
                   setFormValue(val);
                 }}
               >
-                <View
-                  style={{
-                    borderWidth: 1,
-                    borderColor: COLORS.grey,
-                    backgroundColor: COLORS.onprimary,
-                    padding: 10,
-                    borderRadius: 10,
-                    marginVertical: 10,
-                  }}
-                >
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Text style={{ color: COLORS.white, fontSize: 16 }}>
+                <View style={styles.box}>
+                  <View style={styles.row}>
+                    <View style={styles.col}>
+                      <Text style={{ color: COLORS.yellow, fontSize: 16 }}>
                         {val.description}
                       </Text>
                       <Text style={{ color: COLORS.white, fontSize: 16 }}>
                         ${val.price}/{val.duration}
                       </Text>
                     </View>
-                    <View
-                      style={{
-                        width: 150,
-                        height: 55,
-                        borderWidth: 3,
-                        borderColor: COLORS.grey,
-                        borderRadius: 55,
-                        backgroundColor: COLORS.white,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.black,
-                          padding: 10,
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          fontSize: 12,
-                        }}
-                      >
-                        {moment(val.date).format("DD MMM YYYY")}
+                    <View style={styles.circleDate}>
+                      <Text style={styles.circleText}>
+                        {moment(parseISO(val.date)).format("DD MMM")}
                       </Text>
                     </View>
                   </View>
                 </View>
               </TouchableOpacity>
-              /* <Card value={val} key={id} onPress={() => {
-                setShowEditModal(true); 
-                setFormValue(val);
-              }}/> */
             ))}
           </View>
         </ScrollView>

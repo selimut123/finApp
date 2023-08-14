@@ -8,6 +8,7 @@ import Picker from '../Picker/Picker';
 import DatePicker from '../DatePicker/DatePicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { parseISO } from 'date-fns';
 import moment from 'moment';
 
 const Form = ({ addFunc, formValues, isEdit, isSubs }) => {
@@ -131,7 +132,10 @@ const Form = ({ addFunc, formValues, isEdit, isSubs }) => {
             <DatePicker
               setShowDatePicker={() => setShowDatePicker(false)}
               showDatePicker={showDatePicker}
-              setData={(data) => {setFieldValue("date", data);}}
+              setData={(data) => {setFieldValue(
+                "date",
+                new Date(data).toISOString()
+              );}}
               val={values.date}
             />
             <View style={styles.inputContainer}>

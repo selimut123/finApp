@@ -1,40 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './style';
 import { COLORS } from '../../../util/constant';
 
 import Card from '../../Components/Card/Card';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { ScrollView } from 'react-native-gesture-handler';
 
-const Summary = ({navigation}) => {
-    const [arr, setArr] = useState([
-      {
-        id: 1,
-        description: "Wingstop purchased",
-        price: "24.14",
-        date: "Tuesday, March 30, 2021",
-      },
-      {
-        id: 2,
-        description: "Wingstop purchased",
-        price: "24.1",
-        date: "Tuesday, March 30, 2021",
-      },
-      {
-        id: 3,
-        description: "Wingstop purchased",
-        price: "24.14",
-        date: "Tuesday, March 30, 2021",
-      },
-      {
-        id: 4,
-        description: "Wingstop purchased",
-        price: "24.14",
-        date: "Tuesday, March 30, 2021",
-      },
-    ]);
-
-
+const Summary = ({navigation, route}) => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.box}>
@@ -49,18 +22,16 @@ const Summary = ({navigation}) => {
           </View>
           <Text style={styles.mainTitle}>MARCH, 2022</Text>
           <Text style={styles.historyTitle}>History Transaction</Text>
-          <View>
-            {arr.map((val, id) => (
-              <Card
-                value={val}
-                key={id}
-                disabled={true}
-              />
+          <ScrollView>
+            {route.params.paramKey.map((val, id) => (
+              <Card value={val} key={id} disabled={true} />
             ))}
-          </View>
+          </ScrollView>
           <View style={styles.subbox}>
             <Text style={styles.title2}>Total Spending: </Text>
-            <Text style={styles.priceTitle}>200 $</Text>
+            <Text style={styles.priceTitle}>
+              {route.params.total.toFixed(1)} $
+            </Text>
           </View>
         </View>
       </View>
