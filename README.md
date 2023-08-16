@@ -1,7 +1,17 @@
-# FinApp Mobile Application
-Fully implemented the frontend using React Native, and will continue the backend using AWS amplify to create the API and storage
+# Mobile Application: FinApp
+An application to track monthly expenses on any daily purchases and monthly subscriptions. Inspired by the book "Rich Dad Poor Dad", I created this application with features that are customized to my need. So far this application has helped me actively keep track of my expenses and help me grow financially in savings.
 
-![](image/finApp_1.PNG)
-![](image/finApp_2.PNG))
-![](image/finApp_3.PNG))
-![](image/finApp_4.PNG)
+## Implementation
+### Tech Stack
+Software:
+- **React Native, CSS** *frontend and general website layout*
+- **JavaScript** *general app functionality*
+- **NodeJS and Express** *backend, REST API, and live server*
+- **MongoDB** *Database*
+
+### Design Inspiration
+
+### Deployment
+- **EXPO EAS** *Using EAS Build to create Android APK*
+- **Heroku** *Using Heroku remote repository to enable live server*
+- **MongoDB Atlas* *Using multi-cloud database service to store data*
